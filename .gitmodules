@@ -1,0 +1,3 @@
+[submodule "mercado-ms"]
+	path = mercado-ms
+	url = git@github.com:LuizMVB/mercado-ms.git
