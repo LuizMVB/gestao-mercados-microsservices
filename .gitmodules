@@ -1,3 +1,6 @@
 [submodule "mercado-ms"]
 	path = mercado-ms
 	url = git@github.com:LuizMVB/mercado-ms.git
+[submodule "produto-ms"]
+	path = produto-ms
+	url = git@github.com:LuizMVB/produto-ms.git
