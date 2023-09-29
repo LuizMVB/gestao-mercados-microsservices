@@ -4,3 +4,9 @@
 [submodule "produto-ms"]
 	path = produto-ms
 	url = git@github.com:LuizMVB/produto-ms.git
+[submodule "gateway"]
+	path = gateway
+	url = git@github.com:LuizMVB/gateway.git
+[submodule "servidor"]
+	path = servidor
+	url = git@github.com:LuizMVB/servidor.git

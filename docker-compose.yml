@@ -1,0 +1,97 @@
+version: "3.9"
+
+services:
+
+  mercado-db:
+    image: mysql:8.0.32
+    container_name: mercado-db
+    volumes:
+      - mercado-db:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: mercado-db
+      MYSQL_ROOT_PASSWORD: ifljava
+    networks:
+      - gestao-mercados-microsservices-bridge
+
+  mercado-ms:
+    build:
+      context: ./mercado-ms
+      dockerfile: ./Dockerfile
+    image: luizmiguelvb/mercado-ms
+    container_name: mercado-ms
+    environment:
+      - ADDITIONAL_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -Xmx1G -Xms128m -XX:MaxMetaspaceSize=128m
+      - PROFILE=dev
+    networks:
+      - gestao-mercados-microsservices-bridge
+    depends_on:
+      - mercado-db
+      - servidor
+
+  produto-db:
+    image: mysql:8.0.32
+    container_name: produto-db
+    volumes:
+      - produto-db:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: produto-db
+      MYSQL_ROOT_PASSWORD: ifljava
+    networks:
+      - gestao-mercados-microsservices-bridge
+
+  produto-ms:
+    build:
+      context: ./produto-ms
+      dockerfile: ./Dockerfile
+    image: luizmiguelvb/produto-ms
+    container_name: produto-ms
+    environment:
+      - ADDITIONAL_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -Xmx1G -Xms128m -XX:MaxMetaspaceSize=128m
+      - PROFILE=dev
+    networks:
+      - gestao-mercados-microsservices-bridge
+    depends_on:
+      - produto-db
+      - servidor
+
+  servidor:
+    build:
+      context: ./servidor
+      dockerfile: ./Dockerfile
+    image: luizmiguelvb/servidor
+    container_name: servidor
+    ports:
+      - "8081:8081"
+    environment:
+      - ADDITIONAL_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -Xmx1G -Xms128m -XX:MaxMetaspaceSize=128m
+      - PROFILE=dev
+    networks:
+      - gestao-mercados-microsservices-bridge
+
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: ./Dockerfile
+    image: luizmiguelvb/gateway
+    container_name: gateway
+    ports:
+      - "8082:8082"
+    environment:
+      - ADDITIONAL_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -Xmx1G -Xms128m -XX:MaxMetaspaceSize=128m
+      - PROFILE=dev
+    networks:
+      - gestao-mercados-microsservices-bridge
+    depends_on:
+      - produto-ms
+      - mercado-ms
+      - servidor
+
+networks:
+  gestao-mercados-microsservices-bridge:
+    name: gestao-mercados-microsservices-bridge
+    driver: bridge
+volumes:
+  mercado-db:
+    name: mercado-db
+  produto-db:
+    name: produto-db
