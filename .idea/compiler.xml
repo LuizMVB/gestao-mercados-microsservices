@@ -8,15 +8,15 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="servidor" />
-        <module name="pedido-ms" />
         <module name="produto-ms" />
         <module name="mercado-ms" />
         <module name="gateway" />
-        <module name="pagamento-ms" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="pagamento-ms" target="17" />
       <module name="pagamentos" target="17" />
+      <module name="pedido-ms" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

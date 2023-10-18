@@ -10,3 +10,9 @@
 [submodule "servidor"]
 	path = servidor
 	url = git@github.com:LuizMVB/servidor.git
+[submodule "pagamento-ms"]
+	path = pagamento-ms
+	url = git@github.com:LuizMVB/pagamento-ms.git
+[submodule "pedido-ms"]
+	path = pedido-ms
+	url = git@github.com:LuizMVB/pedido-ms.git
