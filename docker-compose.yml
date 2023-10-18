@@ -2,6 +2,26 @@ version: "3.9"
 
 services:
 
+  rabbitmq:
+    image: rabbitmq:3.10-management
+    container_name: rabbitmq
+    restart: always
+    healthcheck:
+      test: [ "CMD", "rabbitmqctl", "status" ]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - ./dados:/var/lib/rabbitmq/
+    environment:
+      - RABBITMQ_DEFAULT_USER=luiz
+      - RABBITMQ_DEFAULT_PASS=ifljava
+    networks:
+      - gestao-mercados-microsservices-bridge
+
   mercado-db:
     image: mysql:8.0.32
     container_name: mercado-db
@@ -54,6 +74,64 @@ services:
       - produto-db
       - servidor
 
+  pedido-db:
+    image: mysql:8.0.32
+    container_name: pedido-db
+    volumes:
+      - pedido-db:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: pedido-db
+      MYSQL_ROOT_PASSWORD: ifljava
+    networks:
+      - gestao-mercados-microsservices-bridge
+
+  pedido-ms:
+    build:
+      context: ./pedido-ms
+      dockerfile: ./Dockerfile
+    image: luizmiguelvb/pedido-ms
+    container_name: pedido-ms
+    environment:
+      - ADDITIONAL_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -Xmx1G -Xms128m -XX:MaxMetaspaceSize=128m
+      - PROFILE=dev
+    networks:
+      - gestao-mercados-microsservices-bridge
+    depends_on:
+      - pedido-db
+      - servidor
+
+  pagamento-db:
+    image: mysql:8.0.32
+    container_name: pagamento-db
+    ports:
+      - "3306:3306"
+    volumes:
+      - pagamento-db:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: pagamento-db
+      MYSQL_ROOT_PASSWORD: ifljava
+    networks:
+      - gestao-mercados-microsservices-bridge
+
+  pagamento-ms:
+    build:
+      context: ./pagamento-ms
+      dockerfile: ./Dockerfile
+    image: luizmiguelvb/pagamento-ms
+    container_name: pagamento-ms
+    ports:
+      - "8080:8080"
+      - "5005:5005"
+    environment:
+      - ADDITIONAL_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -Xmx1G -Xms128m -XX:MaxMetaspaceSize=128m
+      - PROFILE=dev
+    networks:
+      - gestao-mercados-microsservices-bridge
+    restart: on-failure
+    depends_on:
+      - pagamento-db
+      - servidor
+
   servidor:
     build:
       context: ./servidor
@@ -84,6 +162,8 @@ services:
     depends_on:
       - produto-ms
       - mercado-ms
+      - pedido-ms
+      - pagamento-ms
       - servidor
 
 networks:
@@ -95,3 +175,7 @@ volumes:
     name: mercado-db
   produto-db:
     name: produto-db
+  pedido-db:
+    name: pedido-db
+  pagamento-db:
+    name: pagamento-db

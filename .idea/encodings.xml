@@ -3,6 +3,8 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/gateway/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mercado-ms/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pagamento-ms/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pedido-ms/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/produto-ms/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/servidor/src/main/java" charset="UTF-8" />
   </component>

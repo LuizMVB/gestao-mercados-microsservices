@@ -8,16 +8,24 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="servidor" />
+        <module name="pedido-ms" />
         <module name="produto-ms" />
         <module name="mercado-ms" />
         <module name="gateway" />
+        <module name="pagamento-ms" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="pagamentos" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="gateway" options="-parameters" />
       <module name="mercado-ms" options="-parameters" />
+      <module name="pagamento-ms" options="-parameters" />
+      <module name="pagamentos" options="-parameters" />
+      <module name="pedido-ms" options="-parameters" />
       <module name="produto-ms" options="-parameters" />
       <module name="servidor" options="-parameters" />
     </option>
