@@ -4,6 +4,8 @@
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/gateway" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/mercado-ms" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pagamento-ms" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pedido-ms" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/produto-ms" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/servidor" vcs="Git" />
   </component>
